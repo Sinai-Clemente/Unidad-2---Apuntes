@@ -305,9 +305,105 @@ La ventaja principal de la composición de trasformaciones, es que varias transf
 </p>
 
 ### Ejercicio de control con teclas de dirección.
-```python
+Descripción del proyecto:
 
+El objetivo de este ejercicio fue implementar el control de un objeto dentro de Blender utilizando las teclas de dirección del teclado, mediante el uso de scripting en Python.
+
+Paso 1: Creación del dibujo
+
+Primero, se procedió a realizar el dibujo dentro de Blender.
+Para ello:
+
+Se creó un objeto (puede ser una figura, modelo o dibujo simple).
+
+Este objeto fue nombrado como "MiDibujo", ya que el código lo identifica mediante ese nombre.
+
+Se ajustó su posición inicial dentro del espacio 2D.
+
+Este paso es fundamental, ya que el script depende de la existencia del objeto para poder manipularlo.
+
+<p align="center">
+ <img width="468" height="597" alt="image" src="https://github.com/user-attachments/assets/f6122a9f-f107-42e4-8c81-1b5009039437" />
+</p>
+
+
+Paso 2: Implementación del código
+
+Posteriormente, se añadió un script en Python dentro del editor de texto de Blender.
+
+El código utiliza un operador modal, lo que permite capturar eventos del teclado en tiempo real.
+
+Funcionamiento del código:
+
+Se obtiene el objeto llamado "MiDibujo" desde la escena.
+
+Se detectan las teclas presionadas por el usuario.
+
+Dependiendo de la tecla, el objeto se mueve en diferentes direcciones:
+
+Flecha izquierda: mueve el objeto en el eje X negativo.
+
+Flecha derecha: mueve el objeto en el eje X positivo.
+
+Flecha arriba: mueve el objeto hacia arriba en el eje Z.
+
+Flecha abajo: mueve el objeto hacia abajo en el eje Z.
+
+Cada movimiento se realiza en incrementos de 0.5 unidades.
+
+La tecla ESC permite finalizar la ejecución del operador.
+
+<p align="center">
+<img width="1085" height="1015" alt="image" src="https://github.com/user-attachments/assets/3ad9bd22-18ac-4208-8eaf-0a431530893e" />
+</p>
+
+Código
+
+```python
+import bpy
+
+class ModalMoveOperator(bpy.types.Operator):
+    bl_idname = "object.modal_move_operator"
+    bl_label = "Modal Move Operator"
+
+    def modal(self, context, event):
+        obj = bpy.data.objects.get("MiDibujo")
+        
+        if not obj:
+            return {'CANCELLED'}
+
+        if event.value == 'PRESS':
+            # IZQUIERDA / DERECHA (Eje X)
+            if event.type == 'LEFT_ARROW':
+                obj.location.x -= 0.5
+            elif event.type == 'RIGHT_ARROW':
+                obj.location.x += 0.5
+                
+            # ARRIBA / ABAJO (Eje Z - Altura en vista frontal)
+            elif event.type == 'UP_ARROW':
+                obj.location.z += 0.5
+            elif event.type == 'DOWN_ARROW':
+                obj.location.z -= 0.5
+
+            # SALIR
+            elif event.type == 'ESC':
+                return {'FINISHED'}
+
+        return {'RUNNING_MODAL'}
+
+    def invoke(self, context, event):
+        context.window_manager.modal_handler_add(self)
+        return {'RUNNING_MODAL'}
+
+bpy.utils.register_class(ModalMoveOperator)
+bpy.ops.object.modal_move_operator('INVOKE_DEFAULT')
 ```
+
+
+Ejecución 
+Se logró controlar el movimiento del objeto en tiempo real usando el teclado, lo cual simula una interacción básica dentro del entorno 2D. 
+<img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/7d552ef6-cdd9-4ccc-86a6-f6d7a07fb646" />
+
 
 <h2> 2.3. Trazo de líneas curvas. </h2>
 El trazo de líneas curvas es fundamental en el diseño asistido por computadora (CAD) y gráficos computacionales, permitiendo modelar formas suaves y complejas a partir de puntos de control. 
@@ -375,9 +471,16 @@ En el subcampo de la informática de diseño asistido por computadora y de gráf
 <img width="509" height="313" alt="image" src="https://github.com/user-attachments/assets/3bbbc829-a24e-4b28-9e47-966e224410d3" / >
 </p>
 
-###Ejercicio dibujo de la animación
+### Ejercicio dibujo de la Animación frame x frame
+En el siguiente enlace se explica detalladamente el proceso para diseñar un dibujo con animación frame by frame en Blender, una técnica que consiste en crear movimiento a partir de la secuencia de imágenes individuales o fotogramas.
 
+https://github.com/Sinai-Clemente/U2-PROYECTO-INTEGRADOR/blob/main/README.md#u2-proyecto-integrador
 
+Resultado<br>
+Como resultado final, se obtuvo una animación 2D fluida de una mascota, lograda mediante el uso de dibujo cuadro por cuadro, organización por capas y aplicación de efectos visuales.<br>
+<p align="center">
+ <img width="1408" height="768" alt="image" src="https://github.com/user-attachments/assets/9db72aa4-cf49-4dc5-9a7c-e111e341753c" />
+</p>
 
 <h2> 2.4. Fractales </h2>
 Los fractale son objetos geométricos caracterizados por la autosimilitud (repetición de patrones a diferentes escalas) y una estructura recursiva infinita. Propuesto por Benoît Mandelbrot, permiten representar formas complejas y naturales (montañas, nubes) que la geometría euclidiana tradicional no puede describir, utilizando algoritmos recursivos. Los ejemplos más populares son el conjunto “Mandelbrot” o el triángulo “Sierpinski”.
@@ -487,13 +590,20 @@ Integración: En entornos como este manual de graficación, el uso de fuentes es
 
 Gosende, J., & Gosende, J. (2025, 20 mayo). ¿Qué es el Diseño Bidimensional o Diseño 2D? ¿Cómo se aplica? Javier Gosende. https://www.javiergosende.com/diseno-bidimensional-2d#:~:text=El%20dise%C3%B1o%20gr%C3%A1fico%20bidimensional%2C%20tambi%C3%A9n,espacio%20plano%2C%20sin%20profundidad%20tridimensional.
 
-https://www.studocu.com/es-mx/document/instituto-de-terapia-ocupacional/sistemas-programables/2-qwertyuiiiiopzxcvbnm/109578771
+Jean H.,  & Jean H., (2024, 15 Octubre). Gráficación 2D: Transformación Bidimensional - Unidad 2 IS. https://www.studocu.com/es-mx/document/instituto-de-terapia-ocupacional/sistemas-programables/2-qwertyuiiiiopzxcvbnm/109578771
 
 Eduardo Adam Navas López, Navas Lopez Eduardo Adam. (2011). Una Humilde Introducción a la Graficación Por Computador. . España: Editorial Academica Espanola. https://imusic.dk/artist/Eduardo+Adam+Navas+L%C3%B3pez
 
-https://graficacion2d21.blogspot.com/?m=1
+Christian Javier Mendoza Ramos, Mendoza Ramos Christian Javier, (2020, octubre 18). Graficacion 2d. https://graficacion2d21.blogspot.com/?m=1
 
-https://fernandez-torres-jose.blogspot.com/2012/08/fractales.html?m=1
+Fractales. (s. f.). https://fernandez-torres-jose.blogspot.com/2012/08/fractales.html?m=1
 
-https://share.google/mENi3yv3MHvI8u7x4
+Álvaro Rodríguez - Finanzas VLR. (2024, 3 enero). Elementos básicos de diseño gráfico: Tipografía, tipo de fuente, fuente personalizada -PowerPoint [Vídeo]. YouTube. https://www.youtube.com/watch?v=bn0h-RUuwYg
+
+Notas para el curso de graficación por computadora. (s. f.). https://prometeo.matem.unam.mx/recursos/VariosNiveles/iCartesiLibri/recursos/Notas_Graficacion_por_Computadora/index.html?page=8
+
+Introducción a la graficación por computadora . (s. f.). https://proyectodescartes.org/iCartesiLibri/PDF/GraficacionComputadora.pdf
+
+  
+
 
