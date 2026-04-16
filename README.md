@@ -9,9 +9,55 @@ La transformación bidimensional es un concepto fundamental en la geometría com
 
 <h2> 2.1. Transformación bidimensional. </h2>
 
+Las transformaciones bidimensionales son operaciones geométricas fundamentales en computación gráfica que modifican la posición, tamaño, orientación o forma de objetos en un plano. Se aplican mediante matrices (usualmente coordenadas homogéneas $$3X3 $$) para manipular puntos $$P(x, y) $$ y convertirlos en nuevos puntos $$P'(x', y') $$, siendo esenciales en diseño, animación y modelado.
 
+<h3> 2.1.1. Traslación. </h3>
+Mueve un objeto a una nueva posición desplazando cada punto $$P(x, y) $$  un vector $$(T_x, T_y) $$ . Las ecuaciones son:
 
-###
+$$x' = x + Tx$$ $$y' = y + Ty$$
+
+El objeto conserva su forma y tamaño. 
+
+<p align="center">
+<img width="320" height="187" alt="image" src="https://github.com/user-attachments/assets/54beb744-97c1-416d-a4f9-8a4495f9399d" />
+</p>
+
+<h3> 2.1.2. Escalamiento. </h3>
+
+Altera el tamaño de un objeto multiplicando las coordenadas por factores de escala $$S(S_x, S_y) $$ respecto al origen.
+
+$$x' = S_x \cdot x $$   $$y' = S_y \cdot y $$
+
+Si $$S_x = S_y$$, el escalamiento es uniforme.
+
+<p align="center">
+<img width="248" height="203" alt="image" src="https://github.com/user-attachments/assets/a0d81abc-ac30-4359-a6ab-56e287c5c5dc" />
+</p>
+
+<h3> 2.1.3. Rotación. </h3>
+Gira un objeto un ángulo $$θ $$ respecto al origen (normalmente en sentido antihorario). 
+
+$$x′ = x \cdot cos(θ) -y \cdot sin(θ) $$ $$y′ = x \cdot sin(θ)+y \cdot cos(θ) $$
+
+La rotación mantiene la forma y el tamaño del objeto.
+
+<p align="center">
+<img width="259" height="194" alt="image" src="https://github.com/user-attachments/assets/ad7a309a-753d-41db-b77a-68e16591e532" />
+</p>
+
+<h3> 2.1.4. Sesgado. </h3>
+Deforma la forma de un objeto desplazando sus coordenadas en una dirección, haciendo que parezca inclinado. 
+
+Sesgado en $$X $$: $$x′ = x + sh_x \cdot y,    y′ = y $$ 
+
+Sesgado en $$Y $$: $$  x′ = x,      y′ = y + sh_y \cdot x $$
+
+Esta transformación modifica los ángulos internos de la figura. 
+
+<p align="center">
+<img width="329" height="321" alt="image" src="https://github.com/user-attachments/assets/69e3126a-0053-4a59-b833-159105e8d8bb" />
+</p>
+
 <h2> 2.2.Representación matricial de las transformaciones bidimensionales. </h2>
 
 La representación matricial de transformaciones bidimensionales (2D) utiliza matrices $$3X3 $$ y coordenadas homogéneas $$(x, y, 1)$$ para representar traslaciones, rotaciones y escalados como multiplicaciones de matrices. Este método permite combinar múltiples transformaciones en una sola matriz, facilitando la manipulación de objetos geométricos. La forma general es $$P'= M \cdot P $$, donde $$P $$ es el vector de posición, $$M $$ la matriz de transformación y $$P' $$ la nueva posición. 
@@ -211,7 +257,7 @@ una base rotada y finalmente descritos con la base canónica.
 
 El sesgado (shear o cizallamiento) es una transformación geométrica no rígida que deforma objetos, desplazando sus puntos en una dirección específica (horizontal, vertical o ambas). Modifica la geometría al deslizar capas del objeto, siendo fundamental para cambiar la forma sin alterar el tamaño de la misma manera que el escalado.
 
-Existe dos posibilidades de hacer transformaciones de sesgo, la primera en la dirección $$x $$ y la segunda en la dirección $$y $$. Para aplicar una transformación de sesgo en la dirección $$x $$ hacemos
+Existe dos posibilidades de hacer transformaciones de sesgo, la primera en la dirección $$x $$ y la segunda en la dirección $$y $$. Para aplicar una transformación de sesgo en la dirección $$x $$ hacemos:
 
 $$
  P = \begin{bmatrix} 
@@ -229,7 +275,7 @@ y \\
 \end{bmatrix}
 $$
 
-y en la dirección $$y $$ hacemos
+y en la dirección $$y $$ hacemos:
 
 $$
  P = \begin{bmatrix} 
@@ -258,34 +304,196 @@ La ventaja principal de la composición de trasformaciones, es que varias transf
 <img width="276" height="182" alt="image" src="https://github.com/user-attachments/assets/1ce0869f-d25f-4448-8844-13d7a8388c6d" />
 </p>
 
-
-<h2> 2.3. Trazo de líneas curvas. </h2>
-
-<h3> 2.3.1. Bézier. </h3>
-
-<h3> 2.3.2. B-spline. </h3>
-
-<h2> 2.4. Fractales </h2>
-
-<h2> 2.5. Uso y creación de fuentes de texto. </h2>
-
-
-
-
+### Ejercicio de control con teclas de dirección.
 ```python
 
 ```
 
+<h2> 2.3. Trazo de líneas curvas. </h2>
+El trazo de líneas curvas es fundamental en el diseño asistido por computadora (CAD) y gráficos computacionales, permitiendo modelar formas suaves y complejas a partir de puntos de control. 
+
+#### Línea
+Una marca delgada hecha por un esferográfico o un lápiz etc.
+
+En geometría una línea:
+
+· es recta (sin curvas),  
+
+· no tiene grosor,
+
+· se extiende en ambas direcciones sin tener un final (infinitamente). 
+
+Si tuviera fin se llamaría "segmento de línea"
+
+#### Trazado de líneas
+
+Diferentes tipos de líneas y situaciones en que se dibujan se resuelven con técnicas diferentes.
+
+- Líneas cortas, o líneas que corren paralelas a otras que nos sirven de referencia.
+
+- Líneas largas. Es el caso de líneas que unen dos puntos alejados, sin ninguna otra referencia. Las primeras líneas de cualquier croquis entran en esta categoría.
+
+Líneas cortas o líneas paralelas a otras ya existentes se las puede dibujar de un solo trazo. Primero se deben mirar bien los puntos de inicio y terminación para luego ejecutar el trazo.
+
+Para el trazado de líneas largas vamos a dar tres técnicas que se utilizarán según las circunstancias.
+
+#### Líneas punto a punto
+La técnica más rápida es, una vez determinados los puntos a unir se comienza moviendo el lápiz desde uno de ellos hacia el otro. Mientras se hace este movimiento se debe mantener la vista sobre el punto de destino. Esto último nos permitirá conservar la dirección.
+
+#### Líneas compuestas
+Una segunda técnica es proceder mediante trazos de cinco a siete centímetros; como si se estuviesen dibujando una sucesión de líneas más cortas. La interrupción del trazo permite verificar el rumbo del trazo y se corregir si es necesario. Los trazos sucesivos no se superponen a fin de posibilitar uniformidad de espesor. Se deja una pequeñísima luz entre ellos de forma tal que apenas resulte perceptible la interrupción y mantenga el espesor uniforme.
+
+#### Líneas de construcción
+Una tercera técnica, particularmente aplicable cuando se está planteando el dibujo, es utilizar líneas de tanteo. Resulta un poco más lenta que las anteriores, pero es de gran ayuda para obtener líneas rectas particularmente cuando son muy largas. Consiste en insinuar la línea en forma apenas visible con trazos muy suaves. Idealmente, solo el dibujante debería percibir esos trazos de tanteo. Se observa el resultado obtenido. Se introducen las correcciones necesarias hasta lograr definir el trayecto correcto. Entonces se comienza el trazado de la línea en forma similar al primer método, pero ahora con una guía visual. Si fuese necesario, porque se utilizaron demasiadas líneas de tanteo, se podrán borrar las que no sirven, antes del trazado definitivo.
+
+<p align="center">
+<img width="550" height="589" alt="image" src="https://github.com/user-attachments/assets/8b98b3f8-1ab4-4361-bf53-4463c8bdb67b" />
+</p>
+
+<h3> 2.3.1. Bézier. </h3>
+Las herramientas de dibujo libre que incorporan la mayoría de programas vectoriales se basan en este concepto para el trazado de líneas curvas.
+Este tipo de curvas fue desarrollado por Pierre Bézier por encargo de la empresa de automóviles Renault™ que buscaba una representación matemática para definir las transiciones suaves en la curvatura de las líneas de sus automóviles.
+
+Curvas Bézier
+Se generan a partir de funciones polinómicas de grado tres que permiten la representación de cualquier forma curvada y evitan la complicación innecesaria de cálculos matemáticos que se produciría usando polinomios de mayor grado.
+Cualquier trazado de estas características está definido por una serie de puntos por los que pasa la curva y otros exteriores a ella que definen sus puntos de inflexión, es decir, aquellos en que cambia de curvatura, pasando de cóncava a convexa o viceversa.
+
+Manejadores de la curva
+En un trazado Bézier existen "manejadores" en cada uno de sus nodos de manera que se puede alterar la curvatura a voluntad para adaptar el trazo a cualquier forma imaginable, controlando la suavidad de las zonas de transición.
+
+<p align="center">
+<img width="509" height="313" alt="image" src="https://github.com/user-attachments/assets/ef025536-65f6-458e-b81f-ccc49d08e06f" />
+</p>
+
+En general, es posible ajustar una curva de Bézier para cualquier numero de puntos de control. El numero de puntos de control que se debe aproximar y su posición relativa determina el grado de polinomio de Bézier. La idea de definir geométricamente las formas no es demasiado compleja: un punto del plano puede definirse por coordenadas. Por ejemplo, un conjunto A tiene unas coordenadas(x1, y1) y a un punto B le corresponde (x2, y2).para trazar una recta entre ambos basta con conocer su posición. Si en lugar de unir dos puntos con una recta se unen con una curva, surgen los elementos esenciales de una curva Bézier: los puntos se denominan puntos de anclaje o nodos. La forma de la curva se define por unos puntos invisibles en el dibujo, denominados puntos de control, manejadores o manecillas
+
+<h3> 2.3.2. B-spline. </h3>
+En el subcampo matemático de análisis numérico, una B-spline o Basis spline (o traducido una línea polinómica suave básica), es una función spline que tiene el mínimo soporte con respecto a un determinado grado, suavidad y partición del dominio. Un teorema fundamental establece que cada función spline de un determinado grado, suavidad y partición del dominio, se puede representar como una combinación lineal de B-splines del mismo grado y suavidad, y sobre la misma partición.​ El término B-spline fue acuñado por Isaac Jacob Schoenberg y es la abreviatura de spline básica. Las B-splines pueden ser evaluadas de una manera numéricamente estable por el algoritmo de Boor. De un modo simplificado, se han creado variantes potencialmente más rápidas que el algoritmo de Boor, pero adolecen comparativamente de una menor estabilidad.
+En el subcampo de la informática de diseño asistido por computadora y de gráficos por computadora, el término B-spline se refiere con frecuencia a una curva parametrizada por otras funciones spline, que se expresan como combinaciones lineales de B-splines (en el sentido matemático anterior). Una B-spline es simplemente una generalización de una curva de Bézier, que puede evitar el fenómeno Runge sin necesidad de aumentar el grado de la B-spline
+
+<p align="center">
+<img width="509" height="313" alt="image" src="https://github.com/user-attachments/assets/3bbbc829-a24e-4b28-9e47-966e224410d3" / >
+</p>
+
+###Ejercicio dibujo de la animación
+
+
+
+<h2> 2.4. Fractales </h2>
+Los fractale son objetos geométricos caracterizados por la autosimilitud (repetición de patrones a diferentes escalas) y una estructura recursiva infinita. Propuesto por Benoît Mandelbrot, permiten representar formas complejas y naturales (montañas, nubes) que la geometría euclidiana tradicional no puede describir, utilizando algoritmos recursivos. Los ejemplos más populares son el conjunto “Mandelbrot” o el triángulo “Sierpinski”.
+
+<p align="center">
+<img width="425" height="330" alt="image" src="https://github.com/user-attachments/assets/772167bf-d2a5-43f4-b7ea-7eb61fe9bc30" />
+</p>
+
+Los fractales se grafican mediante métodos geométricos (reglas de producción) o iterando fórmulas sobre coordenadas, con un alto consumo de recursos computacionales debido a la recursión. A diferencia de las figuras euclidianas (punto 0, línea 1, plano 2), los fractales tienen dimensiones fraccionarias que miden su rugosidad o capacidad de ocupar el espacio.
+
+### Tipos de Fractales
+Los fractales se clasifican principalmente por su método de generación: 
+
+#### Fractales Lineales (Geométricos):
+
+Se crean reemplazando partes de una figura con copias de sí misma a escala.
+
+Ejemplos: Copo de nieve de Koch (perímetro infinito con área finita), Triángulo de Sierpinski y el Conjunto de Cantor.
+
+<p align="center">
+<img width="203" height="379" alt="image" src="https://github.com/user-attachments/assets/dd149210-768d-43ae-a372-b4d7d7295126" />
+</p>
+
+
+
+#### Fractales No Lineales (Algoritmos de escape):
+
+Basados en funciones complejas que determinan si un punto "escapa" al infinito tras varias iteraciones.
+
+Ejemplos: El Conjunto de Mandelbrot (el más famoso en computación gráfica) y los Conjuntos de Julia.
+
+<p align="center">
+<img width="234" height="216" alt="image" src="https://github.com/user-attachments/assets/cdde5629-2be6-4fb8-9e73-6076d26ddb01" />
+</p>
+
+
+
+#### Fractales Aleatorios:
+
+Utilizan procesos estocásticos (al azar) para simular fenómenos naturales.
+
+Aplicaciones: Generación de terrenos, nubes, texturas realistas y simulación de sistemas biológicos.
+
+<p align="center">
+<img width="600" height="300" alt="image" src="https://github.com/user-attachments/assets/a6a8b497-bddf-4084-9e11-bdd1bb3e6740" />
+</p>
+
+<h2> 2.5. Uso y creación de fuentes de texto. </h2>
+El uso y creación de fuentes de texto implica definir y manipular caracteres alfanuméricos como formas geométricas (vectores o mapa de bits) para su visualización. Incluye la selección de tipografías, manejo de estilos (Serif, Sans-serif), escalamiento y técnicas de renderizado para legibilidad. Las fuentes digitales (TTF, OTF) se integran mediante APIs gráficas para representar información clara. 
+
+También llamada tipografía, es una definición de los distintos caracteres que se pueden usar en un documento; de este modo, las distintas fuentes presentarán las letras con un dibujo o tipo de letra diferente y en un sistema infofrmatico cada símbolo individual se le llama caracter o procesador de textos de un tipo y tamaño determinados.
+
+### TIPOGRAFÍA DIGITAL
+Los archivos de tipografía son independientes de las aplicaciones que los usan, que normalmente se instalan en un determinado directorio del sistema operativo para que estén disponibles en todos los programas que los necesiten.
+
+Los más comunes son:
+
+-TTF (TrueType Font)
+
+-PostScript Type 1
+
+-OTF (OpenType Font)
+
+<p align="center">
+<img width="600" height="251" alt="image" src="https://github.com/user-attachments/assets/c271a656-0242-4629-8c70-6c60f97e08c7" />
+</p>
+
+#### PostScript Type 1
+Es un lenguaje de descripción de páginas (en inglés: Page Description Language, PDL), utilizado en muchas impresoras y, de manera usual, como formato de transporte de archivos gráficos en talleres de impresión profesional.
+
+#### OTF (Open Type Font)
+Es un formato de tipos de letra escalables para computadora; su arquitectura esta basada en la de su antecesor (True Type), cuya estructura básica conserva y la cual complementa con tablas de datos que permiten incorporar a un tipo o familia tipográfica funciones tipográficas y lingüísticas avanzadas.
+
+#### TTF (Tru Type Font)
+Es un formato estándar de tipos de letra escalables desarrollado inicialmente por Apple Computer a finales de la década de los ochenta para competir comercialmente con el formato "Type 1" de Adobe Systems, el cual estaba basado en el lenguaje de descripción de página conocido como PostScript.
+
+
+### Uso de Fuentes de Texto en Graficación 2D
+Representación: Los caracteres se definen como formas cerradas (vectores) o mapas de bits (píxeles), lo que permite escalarlos sin perder calidad, especialmente con fuentes TrueType (TTF).
+
+Clasificación: Se utilizan fuentes con remates (Serif), sin remates (Sans-serif), monoespaciadas y caligráficas, cada una con aplicaciones específicas en el diseño técnico o artístico.
+
+Técnicas de Renderizado: Se ajustan atributos como interletrado, interlineado y suavizado (antialiasing) para mejorar la legibilidad en pantallas.
+
+API Gráficas: Herramientas como la explicada en este informe sobre graficación 2D permiten la ubicación precisa de texto en coordenadas 2D.
+
+
+### Creación y Manipulación de Fuentes
+Diseño Digital: Los caracteres se crean mediante curvas (habitualmente Bézier), ajustando el trazo, la personalidad y el espaciado (kerning).
+
+Formatos: Las fuentes se guardan en formatos estándar como OpenType (OTF) y TTF, que son independientes de la aplicación y se instalan en el sistema operativo.
+
+Personalización: Se pueden diseñar fuentes técnicas, como las abordadas en este ejemplo de AutoCAD, para rótulos y documentación en dibujo técnico.
+
+### Aspectos Técnicos
+Psicología Tipográfica: Se selecciona la fuente según el tono deseado, donde las Sans-serif suelen ser preferidas para visualización de datos por su limpieza, según se detalla en este video de elementos de diseño.
+
+Integración: En entornos como este manual de graficación, el uso de fuentes es fundamental para asegurar la accesibilidad y correcta visualización en diferentes plataformas.
+
+<p align="center">
+<img width="509" height="313" alt="image" src="https://github.com/user-attachments/assets/3b0af943-8576-4fd0-98a5-c68ef07edc55" />
+</p>
 
 </div>
 
-Referencias
+# Referencias
+
 Gosende, J., & Gosende, J. (2025, 20 mayo). ¿Qué es el Diseño Bidimensional o Diseño 2D? ¿Cómo se aplica? Javier Gosende. https://www.javiergosende.com/diseno-bidimensional-2d#:~:text=El%20dise%C3%B1o%20gr%C3%A1fico%20bidimensional%2C%20tambi%C3%A9n,espacio%20plano%2C%20sin%20profundidad%20tridimensional.
 
 https://www.studocu.com/es-mx/document/instituto-de-terapia-ocupacional/sistemas-programables/2-qwertyuiiiiopzxcvbnm/109578771
 
-Eduardo Adam Navas López, Navas Lopez Eduardo Adam. (2011). Una Humilde Introducción a la Graficación Por Computador. . España: Editorial Academica Espanola.
+Eduardo Adam Navas López, Navas Lopez Eduardo Adam. (2011). Una Humilde Introducción a la Graficación Por Computador. . España: Editorial Academica Espanola. https://imusic.dk/artist/Eduardo+Adam+Navas+L%C3%B3pez
 
-https://graficacion2d21.blogspot.com/2020/10/21-transformacion-bidimensional.html?m=1
+https://graficacion2d21.blogspot.com/?m=1
 
-# Referencias
+https://fernandez-torres-jose.blogspot.com/2012/08/fractales.html?m=1
+
+https://share.google/mENi3yv3MHvI8u7x4
+
