@@ -8,8 +8,39 @@ El diseño gráfico bidimensional, también conocido como diseño gráfico 2D, s
 La transformación bidimensional es un concepto fundamental en la geometría computacional y el diseño gráfico que se refiere a las operaciones matemáticas aplicadas a figuras en un plano bidimensional. Estas transformaciones modifican la posición, orientación, tamaño o forma de los objetos sin salir del plano. En el contexto de la gráfica por computadora y otros campos, las transformaciones bidimensionales se utilizan para manipular imágenes, figuras y coordenadas de manera eficiente. Estas transformaciones son fundamentales en áreas como la computación gráfica, el diseño asistido por computadora (CAD) y la geometría computacional. Existen varios tipos de transformaciones, como la traslación, rotación, escalamiento y reflexión, que permiten manipular objetos de manera precisa. Estas operaciones se representan comúnmente mediante matrices, lo que facilita su aplicación en diversos sistemas. En campos como la animación digital y los videojuegos, las transformaciones bidimensionales son esenciales para lograr movimiento, interacción y cambios visuales en objetos y personajes. Además, son cruciales en disciplinas como la cartografía, donde se utilizan para transformar y proyectar mapas con precisión.
 
 <h2> 2.1. Transformación bidimensional. </h2>
-Las transformaciones geométricas son funciones que nos permiten mapear un conjunto de vectores a otro, esto al ser multiplicados por una matriz de transformación asociada a la transformación deseada. Este tipo de transformaciones son fundamentales en GC, ya que nos permiten modelar objetos, cambiando su posición y/o forma.
 
+
+
+###
+<h2> 2.2.Representación matricial de las transformaciones bidimensionales. </h2>
+
+La representación matricial de transformaciones bidimensionales (2D) utiliza matrices $$3X3 $$ y coordenadas homogéneas $$(x, y, 1)$$ para representar traslaciones, rotaciones y escalados como multiplicaciones de matrices. Este método permite combinar múltiples transformaciones en una sola matriz, facilitando la manipulación de objetos geométricos. La forma general es $$P'= M \cdot P $$, donde $$P $$ es el vector de posición, $$M $$ la matriz de transformación y $$P' $$ la nueva posición. 
+
+En aplicaciones de diseño y de creación de imágenes realizamos transformaciones para ajustar los componentes de la imagen en sus posiciones apropiadas.
+Es posible expresar cada una de las transformaciones básicas en la forma de matriz general:
+
+$$P' = M_1 * P + M_2 $$
+
+Con las posiciones de coordenadas $$P $$ y $$P’ $$ representadas como columnas de vector. La matriz $$M_1 $$ es una matriz de dos por dos, que contiene factores de multiplicación y $$M_2 $$ es una matriz de columnas de dos elementos que contiene términos de traslación. Para la traslación $$M_1 $$ es la matriz de identidad. Para la rotación o la escalación $$M_2 $$ contiene los términos de traslación asociados con el punto pivote o el punto fijo de escalación.
+ 
+Se pueden combinar los términos de multiplicación y de adición para transformaciones geométricas bidimensionales en una sola representación de matriz al ampliar las representaciones de matriz de dos por dos a matrices de tres por tres. Esto permite expresar todas las ecuaciones de matriz como multiplicaciones de matriz, si también se amplían las representaciones de matriz para las posiciones de coordenadas. 
+
+### Coordenadas homogéneas.
+
+Para expresar cualquier transformación bidimensional como una multiplicación de matriz, se representa cada posición de coordenadas cartesianas $$(x, y) $$ con las tres coordenadas homogéneas  $$(x_h , y_h , h ) $$, donde:
+
+$$x = xh/h $$     $$y = yh/h $$
+
+Por tanto, una representación general de coordenadas homogéneas se puede expresar también como $$(h \cdot x, h \cdot y, h) $$. Para transformaciones geométricas bidimensionales, se selecciona el parámetro homogéneo $$h $$  como cualquier valor no cero. Así, existe un número finito de representaciones homogéneas equivalentes para cada punto de coordenadas $$(x, y) $$. Una opción conveniente consiste en solo establecer $$h=1 $$. Entonces, se representa cada posición bidimensional con las coordenadas homogéneas $$(x , y, 1) $$.
+
+En matemáticas se utiliza el término coordenadas homogéneas  para referirse al efecto de esta representación de ecuaciones cartesianas. Cuando se convierte un punto cartesiano $$(x, y) $$ a una representación homogénea $$(x_h, y_h, h) $$ las ecuaciones que contiene $$x $$ y $$y $$, como $$f(x, y) = 0, $$ se convierten en ecuaciones homogéneas en los tres parámetros $$y $$. Esto solo significa que si se sustituye cada uno de los tres parámetros $$x_h, y_h, h $$ con cualquier valor $$v $$ veces ese parámetro, el valor $$v $$ se puede factorizar fuera de las ecuaciones.
+
+Expresar coordenadas homogéneas nos permite representar todas las ecuaciones de transformación geométrica como multiplicaciones de matriz. Se representan las coordenadas con vectores de columna de tres elementos y las operaciones de transformación se expresan como matrices de $$3 $$ $$por $$ $$3 $$.
+
+
+### Matriz de transformación.
+
+Las transformaciones geométricas son funciones que nos permiten mapear un conjunto de vectores a otro, esto al ser multiplicados por una matriz de transformación asociada a la transformación deseada. Este tipo de transformaciones son fundamentales en GC, ya que nos permiten modelar objetos, cambiando su posición y/o forma.
 
 Para transformar vectores 2D podemos utilizar matrices 
 
@@ -41,7 +72,8 @@ Otra forma de pensarlo es como una transformación del sistema de coordenadas. A
 vale la pena notar que dicha transformación es parecida a un cambio de base, donde se recibe a un vector en la base descrita por los vectores columna de la matriz, y se obtiene a un vector con sus coordenadas descritas en la base canónica.
 
 
-<h3> 2.1.1. Traslación. </h3>
+#### 1. Traslación.
+
 La transformación de traslación es la más sencilla de todas, ya que basta desplazar ciertas unidades en dirección del eje $$x $$  o $$y $$ para generar un movimiento sobre éstos, de modo que
 $$x' = x + Tx$$ $$y' = y + Ty$$
 
@@ -59,14 +91,11 @@ $$
 </p>
 
 
+#### 2. Escalamiento
 
-
-<h3> 2.1.2. Escalamiento. </h3>
 Una transformación de escalamiento como su nombre lo indica, permite cambiar el tamaño de un objeto. En particular, para escalar a un vector, necesitamos multiplicar a cada una de sus coordenadas por un factor de escalamiento, esto es
 
-<p align="center">
 $$x' = S_x \cdot x $$   $$y' = S_y \cdot y $$
-</p>
 
 de modo que si  se agranda en dirección del eje , y sí $$|S_x| > 1 $$  se
 encoge, análogamente con $$S_y $$.
@@ -108,7 +137,7 @@ $$
 
 Como mencionamos anteriormente, esta operación es parecida a un cambio de base, en este caso es como si tomáramos a un vector representado por una base escalada y lo describiéramos con la base canónica.
 
-<h3> 2.1.3. Rotación. </h3>
+#### 3. Rotación. 
 
 Supongamos que tenemos un vector $$v = (x, y) $$ y lo queremos rotar $$ϕ $$ grados con respecto al origen, en sentido contrario a las manecillas del reloj, obteniendo $$v' = (x', y') $$.
 <p align="center">
@@ -119,9 +148,9 @@ Figura 4.2. Rotación de un vector $$v $$.
 Observemos que $$r = ∥v∥ $$ y además que entre $$v $$  y el eje $$x $$ se forma un ángulo $$θ $$.
 Entonces, podemos parametrizar a $$v $$ como
 
-<p align="center">
+
 $$x= r cos θ $$ $$y= r sin θ $$
-</p>
+
 
 Y como $$v' $$ es $$v $$ rotado $$ϕ $$ grados, su longitud sigue siendo $$r $$ y termina formando
 un ángulo de $$θ + ϕ $$, entonces
@@ -178,10 +207,11 @@ Y de manera similar al escalamiento podemos pensar a los vectores recibidos en
 una base rotada y finalmente descritos con la base canónica.
 
 
-<h3> 2.1.4. Sesgado. </h3>
+####  4. Sesgado. 
+
 El sesgado (shear o cizallamiento) es una transformación geométrica no rígida que deforma objetos, desplazando sus puntos en una dirección específica (horizontal, vertical o ambas). Modifica la geometría al deslizar capas del objeto, siendo fundamental para cambiar la forma sin alterar el tamaño de la misma manera que el escalado.
 
-Existe dos posibilidades de hacer transformaciones de sesgo, la primera en la dirección x y la segunda en la dirección y. Para aplicar una transformación de sesgo en la dirección x hacemos
+Existe dos posibilidades de hacer transformaciones de sesgo, la primera en la dirección $$x $$ y la segunda en la dirección $$y $$. Para aplicar una transformación de sesgo en la dirección $$x $$ hacemos
 
 $$
  P = \begin{bmatrix} 
@@ -199,7 +229,7 @@ y \\
 \end{bmatrix}
 $$
 
-y en la dirección y hacemos
+y en la dirección $$y $$ hacemos
 
 $$
  P = \begin{bmatrix} 
@@ -221,10 +251,12 @@ $$
   <img width="458" height="175" alt="image" src="https://github.com/user-attachments/assets/df825ba4-dbdd-4cb1-9ca1-34973f03ff4e" />
 </p>
 
+La ventaja principal de la composición de trasformaciones, es que varias transformaciones (por ejemplo, rotar y luego trasladar) se pueden combinar multiplicando sus respectivas matrices $$(M_f = M_R \cdot .... \cdot M_2 \cdot M_1) $$ para obtener una única matriz que aplica todos los cambios.
 
-###
-<h2> 2.2.Representación matricial de las transformaciones bidimensionales. </h2>
-La representación matricial de transformaciones bidimensionales (2D) utiliza matrices y coordenadas homogéneas para representar traslaciones, rotaciones y escalados como multiplicaciones de matrices. Este método permite combinar múltiples transformaciones en una sola matriz, facilitando la manipulación de objetos geométricos. La forma general es , donde es el vector de posición, la matriz de transformación y la nueva posición. 
+<p align="center">
+<img width="270" height="186" alt="image" src="https://github.com/user-attachments/assets/36907003-045a-4969-ba76-b6f7bffd770a" />
+<img width="276" height="182" alt="image" src="https://github.com/user-attachments/assets/1ce0869f-d25f-4448-8844-13d7a8388c6d" />
+</p>
 
 
 <h2> 2.3. Trazo de líneas curvas. </h2>
@@ -249,7 +281,11 @@ La representación matricial de transformaciones bidimensionales (2D) utiliza ma
 
 Referencias
 Gosende, J., & Gosende, J. (2025, 20 mayo). ¿Qué es el Diseño Bidimensional o Diseño 2D? ¿Cómo se aplica? Javier Gosende. https://www.javiergosende.com/diseno-bidimensional-2d#:~:text=El%20dise%C3%B1o%20gr%C3%A1fico%20bidimensional%2C%20tambi%C3%A9n,espacio%20plano%2C%20sin%20profundidad%20tridimensional.
+
 https://www.studocu.com/es-mx/document/instituto-de-terapia-ocupacional/sistemas-programables/2-qwertyuiiiiopzxcvbnm/109578771
 
+Eduardo Adam Navas López, Navas Lopez Eduardo Adam. (2011). Una Humilde Introducción a la Graficación Por Computador. . España: Editorial Academica Espanola.
+
+https://graficacion2d21.blogspot.com/2020/10/21-transformacion-bidimensional.html?m=1
 
 # Referencias
