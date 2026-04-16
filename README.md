@@ -401,6 +401,7 @@ bpy.ops.object.modal_move_operator('INVOKE_DEFAULT')
 
 
 Ejecución 
+
 Se logró controlar el movimiento del objeto en tiempo real usando el teclado, lo cual simula una interacción básica dentro del entorno 2D. 
 <img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/7d552ef6-cdd9-4ccc-86a6-f6d7a07fb646" />
 
